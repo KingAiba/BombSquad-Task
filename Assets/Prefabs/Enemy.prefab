@@ -127,9 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a8700a8b05a6e48b4bda3834ed2c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  rotationSpeed: 10
-  moveDirection: {x: 0, y: 0, z: 0}
+  speed: 10
+  rotationSpeed: 8
   objectRB: {fileID: 0}
 --- !u!114 &7638880410765455057
 MonoBehaviour:
@@ -146,8 +145,17 @@ MonoBehaviour:
   maxHp: 10
   currHp: 0
   isDead: 0
-  defaultBomb: {fileID: 3267773925209128776, guid: 990d7ee4dfe43564aae845c30c594485, type: 3}
   throwForce: 15
+  defaultBomb: {fileID: 3267773925209128776, guid: 990d7ee4dfe43564aae845c30c594485, type: 3}
+  pickupBomb: {fileID: 0}
+  thrownCooldown: 2
+  canThrow: 1
+  curType: 0
+  mineUses: 1
+  curMineUses: 0
+  stickyUses: 3
+  currStickyUses: 0
+  multiDuration: 10
 --- !u!114 &7638880410765455058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,3 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba6eafd20652334582a7b1a807ebc60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveDirection: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+  rotationEnabled: 1
+  movementEnabled: 1
+  attackEnabled: 1

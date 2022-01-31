@@ -27,12 +27,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        playerMovementController.moveObject(moveDirection);
+        playerMovementController.rotateObject(moveDirection);
     }
 
     public void SetMovementDirection()
     {
-        playerMovementController.moveDirection = moveDirection;
+        //playerMovementController.moveDirection = moveDirection;
     }
 
     public void getInput()

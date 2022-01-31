@@ -7,7 +7,7 @@ public class movementController : MonoBehaviour
     public float speed = 10f;
     public float rotationSpeed = 15f;
 
-    public Vector3 moveDirection;
+    //public Vector3 moveDirection;
 
     public Rigidbody objectRB;
     // Start is called before the first frame update
@@ -24,11 +24,11 @@ public class movementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        moveObject();
-        rotateObject();
+        //moveObject();
+        //rotateObject();
     }
 
-    public void moveObject()
+    public void moveObject(Vector3 moveDirection)
     {
         if(objectRB != null)
         {
@@ -36,7 +36,7 @@ public class movementController : MonoBehaviour
         }
     }
 
-    public void rotateObject()
+    public void rotateObject(Vector3 moveDirection)
     {
         if(moveDirection.magnitude == 0)
         {

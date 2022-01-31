@@ -36,7 +36,7 @@ public class BomberScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        OnDeath();   
     }
 
     public void ThrowBomb(Vector3 throwDirection)
@@ -133,6 +133,14 @@ public class BomberScript : MonoBehaviour
         pickupBomb = null;
     }
 
+    public void OnDeath()
+    {
+        if(isDead)
+        {
+            Destroy(gameObject, 5);
+        }
+    }
+
     IEnumerator MultiBombDurationTimer()
     {
         yield return new WaitForSeconds(multiDuration);
@@ -144,5 +152,5 @@ public class BomberScript : MonoBehaviour
         yield return new WaitForSeconds(thrownCooldown);
         canThrow = true;
     }
-    
+
 }
