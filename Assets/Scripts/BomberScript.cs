@@ -27,9 +27,12 @@ public class BomberScript : MonoBehaviour
 
     public float multiDuration = 10;
 
+    public MeleeTriggerScript meleeTrigger;
+
     // Start is called before the first frame update
     void Start()
     {
+        meleeTrigger = gameObject.transform.Find("MeleeTrigger").GetComponent<MeleeTriggerScript>();
         currHp = maxHp;
     }
 
@@ -138,6 +141,14 @@ public class BomberScript : MonoBehaviour
         if(isDead)
         {
             Destroy(gameObject, 5);
+        }
+    }
+
+    public void MeleeAttack()
+    {
+        if(meleeTrigger.inMeleeRange)
+        {
+            meleeTrigger.hit.TakeDamage(meleeTrigger.meleeDamage);
         }
     }
 

@@ -19,10 +19,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        getInput();
-        
+        getInput();       
 
-        ThrowBomb();
     }
 
     private void FixedUpdate()
@@ -69,7 +67,10 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         moveDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+
         SetMovementDirection();
+        ThrowBomb();
+        MeleeAttack();
 
     }
 
@@ -79,6 +80,14 @@ public class PlayerController : MonoBehaviour
         {
             playerBomberScript.ThrowBomb(transform.forward);
         }
+    }
+
+    public void MeleeAttack()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            playerBomberScript.MeleeAttack();
+        }      
     }
     
 }
