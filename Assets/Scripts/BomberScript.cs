@@ -29,6 +29,8 @@ public class BomberScript : MonoBehaviour
 
     public MeleeTriggerScript meleeTrigger;
 
+    public float deathTimer = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -147,7 +149,7 @@ public class BomberScript : MonoBehaviour
     {
         if(isDead)
         {
-            Destroy(gameObject, 5);
+            Destroy(gameObject, deathTimer);
         }
     }
 

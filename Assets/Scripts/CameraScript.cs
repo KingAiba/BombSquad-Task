@@ -27,6 +27,14 @@ public class CameraScript : MonoBehaviour
 
     public void FollowTarget()
     {
-        transform.position = target.transform.position + offset;
+        if(target != null)
+        {
+            transform.position = target.transform.position + offset;
+        }
+        else
+        {
+            transform.position = offset;
+        }
+        
     }
 }

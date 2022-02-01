@@ -10,19 +10,26 @@ public class PlayerController : MonoBehaviour
     private BomberScript playerBomberScript;
 
     public bool isSprinting = false;
+    public bool RagdollEnabled = true;
 
     // Start is called before the first frame update
     void Start()
     {
         playerMovementController = GetComponent<movementController>();
         playerBomberScript = GetComponent<BomberScript>();
+        DisableRagdoll();
     }
 
     // Update is called once per frame
     void Update()
     {
-        getInput();       
+        getInput();
 
+        if (playerBomberScript.isDead && !RagdollEnabled)
+        {
+            EnableRagdoll();
+            GetComponent<Rigidbody>().AddForce(Vector3.up * 5, ForceMode.Impulse);
+        }
     }
 
     private void FixedUpdate()
@@ -104,5 +111,54 @@ public class PlayerController : MonoBehaviour
             isSprinting = false;
         }
     }
-    
+
+    public void DisableRagdoll()
+    {
+        Rigidbody[] rbArr = GetComponentsInChildren<Rigidbody>();
+        Collider[] cArr = GetComponentsInChildren<Collider>();
+
+        foreach(Collider c in cArr)
+        {
+            if (c.gameObject.name == "Player")
+            {
+                continue;
+            }
+            else
+            {
+                c.enabled = false;
+            }
+        }
+
+        foreach (Rigidbody rb in rbArr)
+        {
+            if (rb.gameObject.name == "Player")
+            {
+                continue;
+            }
+            else 
+            {
+                rb.isKinematic = true;
+            }
+        }
+        RagdollEnabled = false;
+    }
+
+    public void EnableRagdoll()
+    {
+        Rigidbody[] rbArr = GetComponentsInChildren<Rigidbody>();
+        Collider[] cArr = GetComponentsInChildren<Collider>();
+
+        foreach (Collider c in cArr)
+        {
+
+            c.enabled = true;
+            
+        }
+        foreach (Rigidbody rb in rbArr)
+        {
+            rb.isKinematic = false;
+        }
+        RagdollEnabled = true;
+    }
+
 }
