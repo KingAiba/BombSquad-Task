@@ -132,9 +132,7 @@ MonoBehaviour:
   damageFalloff: 0
   explosionForce: 5
   bombRB: {fileID: 0}
-  stuckObject: {fileID: 0}
-  stickLocation: {x: 0, y: 0, z: 0}
   miniBombPrefab: {fileID: 0}
   miniBombAmount: 0
   explosion: {fileID: 198194127032045410, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
-  explosionDuration: 2
+  explosionDuration: 1

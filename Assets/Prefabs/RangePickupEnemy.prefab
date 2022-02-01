@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7638880410765455057}
   - component: {fileID: 7638880410765455058}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: RangePickupEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,8 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a8700a8b05a6e48b4bda3834ed2c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 8
   rotationSpeed: 8
+  sprintMulti: 1.5
   objectRB: {fileID: 0}
 --- !u!114 &7638880410765455057
 MonoBehaviour:
@@ -176,10 +177,12 @@ MonoBehaviour:
   rotationEnabled: 1
   movementEnabled: 1
   attackEnabled: 1
-  detectionRadius: 16
-  playerBias: 1
-  pickupBias: 1
-  bombBias: 1
+  detectionRadius: 25
+  detectionCooldown: 3
+  canDetect: 1
+  playerBias: 1.5
+  pickupBias: 0.9
+  bombBias: 0
   throwStrength: 10
   throwCooldown: 5
   canThrow: 1
@@ -187,9 +190,12 @@ MonoBehaviour:
   maxThrowRange: 15
   meleeRange: 0.5
   meleeCooldown: 5
-  canMelee: 1
+  canMelee: 0
   mapRangeX: 14
   mapRangeZ: 14
+  mapRangeY: -10
+  isRetreating: 0
+  currState: 5
 --- !u!1001 &635057017229146927
 PrefabInstance:
   m_ObjectHideFlags: 0

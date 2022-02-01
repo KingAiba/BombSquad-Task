@@ -46,6 +46,7 @@ public class EnemyController : MonoBehaviour
 
     public float mapRangeX = 14;
     public float mapRangeZ = 11;
+    public float mapRangeY = -10;
 
     public bool isRetreating = false;
 
@@ -72,6 +73,7 @@ public class EnemyController : MonoBehaviour
         DecideState();
         LookAtTarget();
         OnDeath();
+        CheckBoundY();
     }
 
     private void FixedUpdate()
@@ -79,6 +81,14 @@ public class EnemyController : MonoBehaviour
         DecideAction();
         rotateCube();
         moveCube();
+    }
+
+    public void CheckBoundY()
+    {
+        if(transform.position.y < mapRangeY)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void LookAtTarget()
@@ -101,7 +111,15 @@ public class EnemyController : MonoBehaviour
     {
         if (rotationEnabled)
         {
-            enemyMovementController.rotateObject(moveDirection);
+            if(isRetreating)
+            {
+                enemyMovementController.rotateObject(-moveDirection);
+            }
+            else
+            {
+                enemyMovementController.rotateObject(moveDirection);
+            }
+            
         }
     }
 
@@ -109,7 +127,15 @@ public class EnemyController : MonoBehaviour
     {
         if (movementEnabled)
         {
-            enemyMovementController.moveObject(moveDirection);
+            if (isRetreating)
+            {
+                enemyMovementController.moveObject(-moveDirection);
+            }
+            else
+            {
+                enemyMovementController.moveObject(moveDirection);
+            }
+            
         }
     }
 
@@ -171,9 +197,9 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        Debug.Log("Player : " + minDisPlayer);
-        Debug.Log("Pickup : " + minDisPickup);
-        Debug.Log("Bomb : " + minDisBomb);
+        //Debug.Log("Player : " + minDisPlayer);
+        //Debug.Log("Pickup : " + minDisPickup);
+        //Debug.Log("Bomb : " + minDisBomb);
 
         Collider newTar = PickTarget(minPlayer, minPickup, minBomb, minDisPlayer, minDisPickup, minDisBomb);
         SetTarget(newTar.gameObject);
@@ -252,7 +278,11 @@ public class EnemyController : MonoBehaviour
 
     private void DecideState()
     {
-        if(target.CompareTag("Pickup"))
+        if (target == null)
+        {
+            ChangeState(EnemyState.None);
+        }
+        else if(target.CompareTag("Pickup"))
         {
             ChangeState(EnemyState.GetPickup);
         }

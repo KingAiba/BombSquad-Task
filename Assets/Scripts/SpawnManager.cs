@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefabs;
+    public GameObject[] enemyPrefabs;
 
     public float spawnRangeX;
     public float spawnRangeZ;
@@ -48,8 +48,8 @@ public class SpawnManager : MonoBehaviour
         {
             for (int i = 0; i < waveArray[currWave]; i++)
             {
-                //int toSpawn = Random.Range(0, enemyPrefabs.Length);
-                BomberScript enemy = Instantiate(enemyPrefabs, GenerateSpawnPoint(), enemyPrefabs.transform.rotation).GetComponent<BomberScript>();
+                int toSpawn = Random.Range(0, enemyPrefabs.Length);
+                BomberScript enemy = Instantiate(enemyPrefabs[toSpawn], GenerateSpawnPoint(), enemyPrefabs[toSpawn].transform.rotation).GetComponent<BomberScript>();
                 enemy.SetMaxHp(Random.Range(1f, 10f));
             }
             currWave++;

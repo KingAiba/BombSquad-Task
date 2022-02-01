@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8218380771603466936}
   m_Layer: 0
   m_Name: Picukup 2
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0098d9ed836eb5549906246b0728ba52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assignedBomb: {fileID: 3267773925209128776, guid: f12074cf028266e49871f24673d5d6c2, type: 3}
+  assignedBomb: {fileID: 3267773925209128776, guid: ebb8bd0962f5f664f80186192c698436, type: 3}
+  rotationSpeed: 10
   isHeal: 0
   isMine: 0
   healAmount: 5

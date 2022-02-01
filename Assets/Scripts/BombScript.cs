@@ -23,38 +23,39 @@ public class BombScript : MonoBehaviour
 
     public Rigidbody bombRB;
 
-    public GameObject stuckObject = null;
-    public Vector3 stickLocation = new Vector3(0, 0, 0);
+/*    public GameObject stuckObject = null;
+    public Vector3 stickLocation = new Vector3(0, 0, 0);*/
 
-    public GameObject miniBombPrefab;
-    public int miniBombAmount;
+/*    public GameObject miniBombPrefab;
+    public int miniBombAmount;*/
 
     public ParticleSystem explosion;
     public float explosionDuration = 2f;
+
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         bombRB = GetComponent<Rigidbody>();
         StartCoroutine(BombTimer());
     }
 
     // Update is called once per frame
-    private void Update()
+    public virtual void Update()
     {
-        StickyUpdate();
+        // StickyUpdate();
     }
 
-    private void OnDestroy()
+    public virtual void OnDestroy()
     {
         DamageObjectsInRange();
 
-        ParticleSystem exp = Instantiate(explosion, transform.position, explosion.transform.rotation);
-        Destroy(exp, explosionDuration);
+        Instantiate(explosion, transform.position, explosion.transform.rotation);
+        //Destroy(exp, explosionDuration);
 
-        if (bombType == BombTypes.Multi)
+/*        if (bombType == BombTypes.Multi)
         {
             SpawnMiniBombs();
-        }
+        }*/
     }
 
     public float CalcDamage()
@@ -88,7 +89,7 @@ public class BombScript : MonoBehaviour
         }
     }
 
-    private void StickyUpdate()
+/*    private void StickyUpdate()
     {
         if(bombType == BombTypes.Sticky && stuckObject != null)
         {
@@ -105,21 +106,20 @@ public class BombScript : MonoBehaviour
 
         Destroy(GetComponent<SphereCollider>());
         //Debug.Log(position);
+    }*/
 
-    }
-
-    private void SpawnMiniBombs()
+/*    private void SpawnMiniBombs()
     {   
         for (int i=0; i<miniBombAmount; i++)
         {         
             GameObject spawnedBomb = Instantiate(miniBombPrefab, transform.position, miniBombPrefab.transform.rotation);
             spawnedBomb.GetComponent<Rigidbody>().velocity = bombRB.velocity;
         }
-    }
+    }*/
 
-    private void OnCollisionEnter(Collision collision)
+    public virtual void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && (bombType == BombTypes.Sticky || bombType == BombTypes.Mine))
+/*        if (collision.gameObject.CompareTag("Ground") && (bombType == BombTypes.Sticky || bombType == BombTypes.Mine))
         {
             bombRB.isKinematic = true;
         }
@@ -127,11 +127,12 @@ public class BombScript : MonoBehaviour
         {
             StickTo(collision.GetContact(0).point, collision.gameObject);
         }
-        else if (bombType == BombTypes.Multi)
+        else*//* if (bombType == BombTypes.Multi)
         {
             Destroy(gameObject);
         }
-        else if (collision.gameObject.CompareTag("Enemy") && bombType == BombTypes.Mine)
+        else*/ 
+        if (collision.gameObject.CompareTag("Enemy") && bombType == BombTypes.Mine)
         {
             Destroy(gameObject);
         }
