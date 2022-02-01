@@ -7,6 +7,7 @@ public enum EnemyState
     AttackMelee,
     AttackBomb,
     GetPickup,
+    Advance,
     Retreat,
     None,
 }
@@ -46,6 +47,8 @@ public class EnemyController : MonoBehaviour
     public float mapRangeX = 14;
     public float mapRangeZ = 11;
 
+    public bool isRetreating = false;
+
     public EnemyState currState = EnemyState.None;
 
     // Start is called before the first frame update
@@ -65,12 +68,15 @@ public class EnemyController : MonoBehaviour
         {
             DetectionPulse();
         }
+
+        DecideState();
         LookAtTarget();
         OnDeath();
     }
 
     private void FixedUpdate()
     {
+        DecideAction();
         rotateCube();
         moveCube();
     }
@@ -79,11 +85,14 @@ public class EnemyController : MonoBehaviour
     {
         if (target == null)
         {
-            target = GameObject.Find("Player");
+            //target = GameObject.Find("Player");
+            canDetect = true;
+            StopCoroutine(PulseCooldownTimer());
         }
         else
         {
             moveDirection = (target.transform.position - transform.position).normalized;
+                  
         }
 
     }
@@ -168,6 +177,7 @@ public class EnemyController : MonoBehaviour
 
         Collider newTar = PickTarget(minPlayer, minPickup, minBomb, minDisPlayer, minDisPickup, minDisBomb);
         SetTarget(newTar.gameObject);
+        canDetect = false;
         StartCoroutine(PulseCooldownTimer());
 
     }
@@ -195,17 +205,24 @@ public class EnemyController : MonoBehaviour
       
     }
 
-    private void ThrowBombInRange()
+    private int IsInThrowRange()
     {
         float playerDistance = Vector3.Distance(transform.position, player.transform.position);
-        if(playerDistance < minThrowRange)
+        // 1 = in range, 0 need to retreat, -1 need to advance
+        if (playerDistance >= minThrowRange && playerDistance <= maxThrowRange)
         {
-            
+            return 1;
         }
-        else if(playerDistance >= maxThrowRange)
+        else if (playerDistance < minThrowRange)
         {
+            return 0;
+        }
+        else if (playerDistance > maxThrowRange)
+        {
+            return -1;
+        }
 
-        }
+        return -1;
     }
 
     public void SetTarget(GameObject newTarget)
@@ -217,6 +234,7 @@ public class EnemyController : MonoBehaviour
     {
         if(canThrow)
         {
+            canThrow = false;
             enemyBomberScript.ThrowBomb(transform.forward);
             StartCoroutine(ThrowCooldownTimer());
         }            
@@ -226,6 +244,7 @@ public class EnemyController : MonoBehaviour
     {
         if (canMelee)
         {
+            canMelee = false;
             enemyBomberScript.MeleeAttack();
             StartCoroutine(MeleeCooldownTimer());
         }      
@@ -233,7 +252,89 @@ public class EnemyController : MonoBehaviour
 
     private void DecideState()
     {
+        if(target.CompareTag("Pickup"))
+        {
+            ChangeState(EnemyState.GetPickup);
+        }
+        else if(target.CompareTag("Bomb"))
+        {
+            ChangeState(EnemyState.Retreat);
+        }
+        else if(target.CompareTag("Player"))
+        {
+            if (canThrow)
+            {
+                int check = IsInThrowRange();
+                // 1 = in range, 0 need to retreat, -1 need to advance
+                if(check == 1)
+                {
+                    ChangeState(EnemyState.AttackBomb);
+                }
+                else if(check == 0)
+                {
+                    ChangeState(EnemyState.Retreat);
+                }
+                else if(check == -1)
+                {
+                    ChangeState(EnemyState.Advance);
+                }
+                else
+                {
+                    ChangeState(EnemyState.Advance);
+                }
+                
+            }
+            else if (canMelee)
+            {
+                ChangeState(EnemyState.AttackMelee);
+            }
+        }
+    }
 
+    private void DecideAction()
+    {
+        switch(currState)
+        {
+            case EnemyState.AttackBomb:
+                isRetreating = false;
+                ThrowBomb();
+                rotateCube();
+                break;
+
+            case EnemyState.AttackMelee:
+                isRetreating = false;
+                MeleeAttack();
+                rotateCube();
+                moveCube();
+                break;
+
+            case EnemyState.GetPickup:
+                isRetreating = false;
+                rotateCube();
+                moveCube();
+                break;
+
+            case EnemyState.Retreat:
+                isRetreating = true;
+                rotateCube();
+                moveCube();
+                break;
+
+            case EnemyState.Advance:
+                isRetreating = false;
+                rotateCube();
+                moveCube();
+                break;
+
+            case EnemyState.None:
+                isRetreating = false;
+                break;
+        }
+    }
+
+    private void ChangeState(EnemyState state)
+    {
+        currState = state;
     }
 
     private void OnDrawGizmosSelected()

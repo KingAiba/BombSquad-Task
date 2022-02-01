@@ -48,7 +48,7 @@ public class BombScript : MonoBehaviour
     {
         DamageObjectsInRange();
 
-        ParticleSystem exp = Instantiate(explosion, transform.position, Quaternion.identity);
+        ParticleSystem exp = Instantiate(explosion, transform.position, explosion.transform.rotation);
         Destroy(exp, explosionDuration);
 
         if (bombType == BombTypes.Multi)

@@ -49,7 +49,8 @@ public class SpawnManager : MonoBehaviour
             for (int i = 0; i < waveArray[currWave]; i++)
             {
                 //int toSpawn = Random.Range(0, enemyPrefabs.Length);
-                Instantiate(enemyPrefabs, GenerateSpawnPoint(), enemyPrefabs.transform.rotation);
+                BomberScript enemy = Instantiate(enemyPrefabs, GenerateSpawnPoint(), enemyPrefabs.transform.rotation).GetComponent<BomberScript>();
+                enemy.SetMaxHp(Random.Range(1f, 10f));
             }
             currWave++;
         }

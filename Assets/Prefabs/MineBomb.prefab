@@ -136,3 +136,5 @@ MonoBehaviour:
   stickLocation: {x: 0, y: 0, z: 0}
   miniBombPrefab: {fileID: 0}
   miniBombAmount: 0
+  explosion: {fileID: 198681264470032530, guid: aa8d6482d70a23445b4b2a928ed1b845, type: 3}
+  explosionDuration: 2

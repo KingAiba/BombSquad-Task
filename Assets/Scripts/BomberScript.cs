@@ -42,6 +42,12 @@ public class BomberScript : MonoBehaviour
         OnDeath();   
     }
 
+    public void SetMaxHp(float val)
+    {
+        maxHp = val;
+        currHp = maxHp;
+    }
+
     public void ThrowBomb(Vector3 throwDirection)
     {
         if(canThrow == true)
