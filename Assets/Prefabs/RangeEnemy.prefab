@@ -181,7 +181,7 @@ MonoBehaviour:
   detectionCooldown: 2
   canDetect: 1
   playerBias: 1
-  pickupBias: 1.5
+  pickupBias: 2
   bombBias: 1
   throwStrength: 10
   throwCooldown: 5
@@ -195,6 +195,7 @@ MonoBehaviour:
   mapRangeZ: 14
   mapRangeY: -10
   isRetreating: 0
+  bombDetectionThreshold: 0
   currState: 5
 --- !u!1001 &635057017229146927
 PrefabInstance:

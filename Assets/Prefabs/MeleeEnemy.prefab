@@ -128,9 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a8700a8b05a6e48b4bda3834ed2c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
-  rotationSpeed: 5
-  sprintMulti: 1.5
+  speed: 6.25
+  rotationSpeed: 4
+  sprintMulti: 1
   objectRB: {fileID: 0}
 --- !u!114 &7638880410765455057
 MonoBehaviour:
@@ -181,7 +181,7 @@ MonoBehaviour:
   detectionCooldown: 5
   canDetect: 1
   playerBias: 1
-  pickupBias: 3
+  pickupBias: 10
   bombBias: 0
   throwStrength: 10
   throwCooldown: 5
@@ -195,6 +195,7 @@ MonoBehaviour:
   mapRangeZ: 14
   mapRangeY: -10
   isRetreating: 0
+  bombDetectionThreshold: 0
   currState: 5
 --- !u!1001 &635057017229146927
 PrefabInstance:

@@ -50,6 +50,8 @@ public class EnemyController : MonoBehaviour
 
     public bool isRetreating = false;
 
+    public float bombDetectionThreshold = 3;
+
     public EnemyState currState = EnemyState.None;
 
     // Start is called before the first frame update
@@ -202,10 +204,12 @@ public class EnemyController : MonoBehaviour
         //Debug.Log("Bomb : " + minDisBomb);
 
         Collider newTar = PickTarget(minPlayer, minPickup, minBomb, minDisPlayer, minDisPickup, minDisBomb);
-        SetTarget(newTar.gameObject);
-        canDetect = false;
-        StartCoroutine(PulseCooldownTimer());
-
+        if(newTar != null)
+        {
+            SetTarget(newTar.gameObject);
+            canDetect = false;
+            StartCoroutine(PulseCooldownTimer());
+        }
     }
 
     private Collider PickTarget(Collider minPlayer, Collider minPickup, Collider minBomb, float minDisPlayer, float minDisPickup, float minDisBomb)
@@ -218,7 +222,7 @@ public class EnemyController : MonoBehaviour
         {
             return minPlayer;
         }
-        else if (minDisBomb != 0 && (minDisBomb < minDisPlayer) && (minDisBomb < minDisPickup))
+        else if (minDisBomb != 0 && (minDisBomb < minDisPlayer) && (minDisBomb < minDisPickup) && minDisBomb < bombDetectionThreshold)
         {
             return minBomb;
         }
@@ -260,6 +264,8 @@ public class EnemyController : MonoBehaviour
     {
         if(canThrow)
         {
+            // Debug.Log(transform.rotation);
+            // Debug.Log(Quaternion.LookRotation(moveDirection));
             canThrow = false;
             enemyBomberScript.ThrowBomb(transform.forward);
             StartCoroutine(ThrowCooldownTimer());
@@ -314,7 +320,7 @@ public class EnemyController : MonoBehaviour
                 }
                 
             }
-            else if (canMelee)
+            else if(canMelee)
             {
                 ChangeState(EnemyState.AttackMelee);
             }

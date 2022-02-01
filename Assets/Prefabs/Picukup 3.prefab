@@ -108,7 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0098d9ed836eb5549906246b0728ba52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assignedBomb: {fileID: 7492016634141333753, guid: 527cf7ef7e9fae94aa7462e07279d900, type: 3}
+  assignedBomb: {fileID: 3267773925209128776, guid: 412662b536cbaa74ebfb547d8583d217, type: 3}
+  rotationSpeed: 10
   isHeal: 1
   isMine: 0
   healAmount: 5

@@ -24,10 +24,8 @@ public class MultiBomb : BombScript
     }
 
     public override void OnCollisionEnter(Collision collision)
-    {
-        
-        Destroy(gameObject);
-        
+    {       
+        Destroy(gameObject);      
     }
 
 
