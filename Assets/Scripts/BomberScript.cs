@@ -102,7 +102,8 @@ public class BomberScript : MonoBehaviour
         if(currHp <= 0)
         {
             currHp = 0;
-            isDead = true;          
+            isDead = true;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
         else if(currHp > maxHp)
         {

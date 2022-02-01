@@ -110,4 +110,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assignedBomb: {fileID: 7492016634141333753, guid: 527cf7ef7e9fae94aa7462e07279d900, type: 3}
   isHeal: 0
+  isMine: 1
   healAmount: 5

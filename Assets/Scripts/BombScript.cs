@@ -19,6 +19,7 @@ public class BombScript : MonoBehaviour
     public float damage;
     public float explosionRadius;
     public float damageFalloff;
+    public float explosionForce;
 
     public Rigidbody bombRB;
 
@@ -27,6 +28,9 @@ public class BombScript : MonoBehaviour
 
     public GameObject miniBombPrefab;
     public int miniBombAmount;
+
+    public ParticleSystem explosion;
+    public float explosionDuration = 2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +47,10 @@ public class BombScript : MonoBehaviour
     private void OnDestroy()
     {
         DamageObjectsInRange();
-        
+
+        ParticleSystem exp = Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(exp, explosionDuration);
+
         if (bombType == BombTypes.Multi)
         {
             SpawnMiniBombs();
@@ -55,6 +62,19 @@ public class BombScript : MonoBehaviour
         return damage;
     }
 
+    public void ExplosiveForce(Rigidbody otherRB)
+    {
+        if (otherRB.GetComponent<BomberScript>().isDead)
+        {
+            otherRB.AddExplosionForce(explosionForce * 5, transform.position, explosionRadius, 0f, ForceMode.Impulse);
+        }
+        else
+        {
+            otherRB.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0f, ForceMode.Impulse);
+        }
+        
+    }
+
     public void DamageObjectsInRange()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
@@ -63,6 +83,7 @@ public class BombScript : MonoBehaviour
             if(hit.CompareTag("Enemy") || hit.CompareTag("Player"))
             {
                 hit.GetComponent<BomberScript>().TakeDamage(CalcDamage());
+                ExplosiveForce(hit.GetComponent<Rigidbody>());
             }
         }
     }

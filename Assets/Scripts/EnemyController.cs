@@ -6,7 +6,9 @@ public enum EnemyState
 {
     AttackMelee,
     AttackBomb,
+    GetPickup,
     Retreat,
+    None,
 }
 
 public class EnemyController : MonoBehaviour
@@ -24,6 +26,8 @@ public class EnemyController : MonoBehaviour
     private BomberScript enemyBomberScript;
 
     public float detectionRadius = 8;
+    public float detectionCooldown = 5;
+    public bool canDetect = true;
 
     public float playerBias = 1;
     public float pickupBias = 1;
@@ -42,6 +46,8 @@ public class EnemyController : MonoBehaviour
     public float mapRangeX = 14;
     public float mapRangeZ = 11;
 
+    public EnemyState currState = EnemyState.None;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +61,10 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(canDetect)
+        {
+            DetectionPulse();
+        }
         LookAtTarget();
         OnDeath();
     }
@@ -130,12 +140,16 @@ public class EnemyController : MonoBehaviour
             }
             else if(target.CompareTag("Pickup"))
             {
-                float distance = Vector3.Distance(transform.position, target.transform.position);
-                if (distance <= minDisPickup)
+                if(!target.GetComponent<PickupScript>().isMine)
                 {
-                    minDisPickup = distance;
-                    minPickup = target;
+                    float distance = Vector3.Distance(transform.position, target.transform.position);
+                    if (distance <= minDisPickup)
+                    {
+                        minDisPickup = distance;
+                        minPickup = target;
+                    }
                 }
+
             }
             else if(target.CompareTag("Bomb"))
             {
@@ -154,6 +168,7 @@ public class EnemyController : MonoBehaviour
 
         Collider newTar = PickTarget(minPlayer, minPickup, minBomb, minDisPlayer, minDisPickup, minDisBomb);
         SetTarget(newTar.gameObject);
+        StartCoroutine(PulseCooldownTimer());
 
     }
 
@@ -180,6 +195,19 @@ public class EnemyController : MonoBehaviour
       
     }
 
+    private void ThrowBombInRange()
+    {
+        float playerDistance = Vector3.Distance(transform.position, player.transform.position);
+        if(playerDistance < minThrowRange)
+        {
+            
+        }
+        else if(playerDistance >= maxThrowRange)
+        {
+
+        }
+    }
+
     public void SetTarget(GameObject newTarget)
     {
         target = newTarget;
@@ -190,6 +218,7 @@ public class EnemyController : MonoBehaviour
         if(canThrow)
         {
             enemyBomberScript.ThrowBomb(transform.forward);
+            StartCoroutine(ThrowCooldownTimer());
         }            
     }
 
@@ -198,7 +227,13 @@ public class EnemyController : MonoBehaviour
         if (canMelee)
         {
             enemyBomberScript.MeleeAttack();
+            StartCoroutine(MeleeCooldownTimer());
         }      
+    }
+
+    private void DecideState()
+    {
+
     }
 
     private void OnDrawGizmosSelected()
@@ -217,5 +252,11 @@ public class EnemyController : MonoBehaviour
     {
         yield return new WaitForSeconds(meleeCooldown);
         canMelee = true;
+    }
+
+    IEnumerator PulseCooldownTimer()
+    {
+        yield return new WaitForSeconds(detectionCooldown);
+        canDetect = true;
     }
 }

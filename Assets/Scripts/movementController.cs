@@ -7,6 +7,8 @@ public class movementController : MonoBehaviour
     public float speed = 10f;
     public float rotationSpeed = 15f;
 
+    public float sprintMulti = 1.5f;
+
     //public Vector3 moveDirection;
 
     public Rigidbody objectRB;
@@ -28,11 +30,19 @@ public class movementController : MonoBehaviour
         //rotateObject();
     }
 
-    public void moveObject(Vector3 moveDirection)
+    public void moveObject(Vector3 moveDirection, bool isSprinting = false)
     {
         if(objectRB != null)
         {
-            objectRB.AddForce(moveDirection * speed * objectRB.mass);
+            if(!isSprinting)
+            {
+                objectRB.AddForce(moveDirection * speed * objectRB.mass);
+            }
+            else
+            {
+                objectRB.AddForce(moveDirection * speed * sprintMulti * objectRB.mass);
+            }
+            
         }
     }
 

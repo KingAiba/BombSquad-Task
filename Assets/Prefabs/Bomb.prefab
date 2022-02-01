@@ -130,6 +130,7 @@ MonoBehaviour:
   damage: 5
   explosionRadius: 5
   damageFalloff: 0
+  explosionForce: 10
   bombRB: {fileID: 0}
   stuckObject: {fileID: 0}
   stickLocation: {x: 0, y: 0, z: 0}

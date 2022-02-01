@@ -7,6 +7,7 @@ public class PickupScript : MonoBehaviour
     public GameObject assignedBomb;
 
     public bool isHeal = false;
+    public bool isMine = false;
     public float healAmount = 5;
     // Start is called before the first frame update
     void Start()

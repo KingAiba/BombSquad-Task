@@ -172,10 +172,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
+  player: {fileID: 0}
   rotationEnabled: 1
   movementEnabled: 1
   attackEnabled: 1
   detectionRadius: 16
+  playerBias: 1
+  pickupBias: 1
+  bombBias: 1
+  throwStrength: 10
+  throwCooldown: 5
+  canThrow: 1
+  minThrowRange: 5
+  maxThrowRange: 15
+  meleeRange: 0.5
+  meleeCooldown: 5
+  canMelee: 1
+  mapRangeX: 14
+  mapRangeZ: 14
 --- !u!1001 &635057017229146927
 PrefabInstance:
   m_ObjectHideFlags: 0

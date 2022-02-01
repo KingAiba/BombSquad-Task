@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private movementController playerMovementController;
     private BomberScript playerBomberScript;
 
+    public bool isSprinting = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerMovementController.moveObject(moveDirection);
+        playerMovementController.moveObject(moveDirection, isSprinting);
         playerMovementController.rotateObject(moveDirection);
     }
 
@@ -71,6 +73,7 @@ public class PlayerController : MonoBehaviour
         SetMovementDirection();
         ThrowBomb();
         MeleeAttack();
+        Sprint();
 
     }
 
@@ -88,6 +91,18 @@ public class PlayerController : MonoBehaviour
         {
             playerBomberScript.MeleeAttack();
         }      
+    }
+
+    public void Sprint()
+    {
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            isSprinting = true;
+        }
+        else
+        {
+            isSprinting = false;
+        }
     }
     
 }
